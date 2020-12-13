@@ -17,6 +17,7 @@ class home extends React.Component {
 			productsList: {},
 			currentCategory: '',
 			viewMoreFlag: true,
+			selection: '',
 		};
 	}
 
@@ -46,8 +47,24 @@ class home extends React.Component {
 		});
 	};
 
+	categoryChangeHandler = (event, index, value) => {
+		if (value > 0) {
+			this.categoryClickHandler(
+				this.state.categoriesList[value - 1].category_id,
+				this.state.categoriesList[value - 1].category_name
+			);
+		}
+		this.setState({ selection: value });
+	};
+
 	render() {
 		const { heading, categoriesList, productsList, currentCategory, viewMoreFlag } = this.state;
+		let ddList;
+		if (categoriesList.length > 0) {
+			ddList = categoriesList.map((item, index) => {
+				return <MenuItem value={index + 1} primaryText={item.category_name} key={index} />;
+			});
+		}
 		return (
 			<>
 				<div className="main-heading">{heading}</div>
@@ -65,7 +82,12 @@ class home extends React.Component {
 				<div className="change-cat-container">
 					<span className="show-label">Showing for</span>
 					<span className="current-category cur-pointer">{currentCategory}</span>
-					<span className="show-label right-align cur-pointer">change</span>
+					<MuiThemeProvider>
+						<DropDownMenu value={0} onChange={this.categoryChangeHandler} className="dd-ctgry">
+							<MenuItem value={0} primaryText="Change" />
+							{ddList}
+						</DropDownMenu>
+					</MuiThemeProvider>
 				</div>
 			</>
 		);

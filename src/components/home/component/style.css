@@ -40,8 +40,9 @@
   cursor: pointer;
 }
 
-.right-align {
-  float: right;
+.dd-ctgry {
+  float: right !important;
+  margin-top: -14px !important;
 }
 
 .view-more-container {
