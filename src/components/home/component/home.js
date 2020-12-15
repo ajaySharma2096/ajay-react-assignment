@@ -19,6 +19,7 @@ class home extends React.Component {
 			viewMoreFlag: true,
 			selection: '',
 		};
+		this.myRef = React.createRef();
 	}
 
 	componentDidMount() {
@@ -33,6 +34,7 @@ class home extends React.Component {
 	}
 
 	categoryClickHandler = (categoryId, categoryName) => {
+		window.scrollTo(0, this.myRef.current.offsetTop);
 		dataCall.getProductsList(categoryId, (result) => {
 			this.setState({
 				currentCategory: categoryName,
@@ -73,7 +75,7 @@ class home extends React.Component {
 					categoriesData={categoriesList}
 					categoryHandler={this.categoryClickHandler}
 				></Categories>
-				<ProductsList productsData={productsList} viewMoreFlag={viewMoreFlag}></ProductsList>
+				<ProductsList ref={this.myRef} productsData={productsList} viewMoreFlag={viewMoreFlag}></ProductsList>
 				<div className="center-align view-more-container">
 					<button className="btn-view-more" onClick={this.viewMoreHandler}>
 						{viewMoreFlag ? VIEW_MORE : VIEW_LESS}
